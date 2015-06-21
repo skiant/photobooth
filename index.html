@@ -3,9 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Photobooth</title>
+	<link rel="stylesheet" href="style.css">
 </head>
-<body ng-controller="photoboothController as booth">
-
+<body ng-controller="appController as app">
+	<booth type="single"></booth>
+	<booth type="fourframes"></booth>
+	<booth type="gif"></booth>
 
 	<script src="bundle.js"></script>
 </body>

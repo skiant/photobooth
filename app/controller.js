@@ -4,5 +4,5 @@ export default appController;
 
 appController.$inject = ['$scope'];
 function appController ($scope) {
-	console.log('controller init');
+	console.log('App init');
 }
