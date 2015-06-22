@@ -7,16 +7,18 @@
     "angular": "^1.4.1"
   },
   "devDependencies": {
+    "babelify": "^6.1.2",
+    "browser-sync": "^2.7.12",
+    "browserify": "^10.2.4",
     "opener": "^1.4.1",
     "partialify": "^3.1.3",
-    "uglify-js": "^2.4.23",
-    "browserify": "^10.2.4",
-    "babelify": "^6.1.2"
+    "uglify-js": "^2.4.23"
   },
   "scripts": {
     "build-js": "browserify ./app | uglifyjs -mc > bundle.js",
-    "dev-js": "browserify ./app -o bundle.js",
-    "start": "npm run build-js && opener index.html"
+    "dev-js": "browserify ./app -o bundle.js && npm run syncserve",
+    "syncserve": "browser-sync start --server --files \"bundle.js, style.css\"",
+    "start": "npm run build-js && npm run syncserve"
   },
   "author": "Mathieu Dubois",
   "license": "MIT",
