@@ -17,6 +17,8 @@ export default function () {
 webcamDirectiveController.$inject = ['$scope', 'webcamService'];
 function webcamDirectiveController ($scope, webcamService) {
 	var vm=this;
-	vm.webcam = webcamService;
+	webcamService.stream.then(streamUrl => {
+		vm.stream = streamUrl;
+	});
 	return vm;
 }

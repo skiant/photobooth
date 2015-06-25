@@ -8,8 +8,9 @@ if (getUserMedia) {
 }
 
 class webcamService {
-	constructor () {
-		this.stream = null;
+	constructor ($q) {
+		var def = $q.defer()
+		this.stream = def.promise;
 
 		if (!getUserMedia) {
 			console.error('Not possible to find user media');
@@ -29,10 +30,10 @@ class webcamService {
 		getUserMedia(
 			constraints,
 			stream => {
-				this.stream = window.URL.createObjectURL(stream);
+				def.resolve(window.URL.createObjectURL(stream));
 			},
 			error => {
-				console.error(eror); return false;
+				def.reject(error);
 			}
 		);
 	}
@@ -42,5 +43,5 @@ class webcamService {
 
 	}
 }
-webcamService.$inject = [];
+webcamService.$inject = ['$q'];
 export default webcamService;
