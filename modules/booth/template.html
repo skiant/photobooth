@@ -1,3 +1,13 @@
-<div class="webcam-container">
-	<video class="webcam" autoplay ng-src="{{booth.stream}}"></video>
+<div class="booth">
+	<div class="webcam-container">
+		<video class="webcam" autoplay ng-src="{{booth.stream}}"></video>
+	</div>
+
+	<div class="controls">
+		<button ng-click="booth.capture()">Capture</button>
+	</div>
+
+	<div class="result" ng-if="booth.result">
+		<img ng-src="{{booth.result}}" alt="">
+	</div>
 </div>
