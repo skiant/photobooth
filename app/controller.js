@@ -4,5 +4,7 @@ export default appController;
 
 appController.$inject = ['$scope'];
 function appController ($scope) {
-	console.log('App init');
+	let vm = this;
+	vm.mode="single";
+	return vm;
 }
