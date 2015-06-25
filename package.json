@@ -12,13 +12,16 @@
     "browserify": "^10.2.4",
     "opener": "^1.4.1",
     "partialify": "^3.1.3",
-    "uglify-js": "^2.4.23"
+    "uglify-js": "^2.4.23",
+    "watchify": "^3.2.3"
   },
   "scripts": {
-    "build-js": "browserify ./app | uglifyjs -mc > bundle.js",
-    "dev-js": "browserify ./app -o bundle.js && npm run syncserve",
+    "build": "browserify ./app -o bundle.js",
+    "build-min": "browserify ./app | uglifyjs -mc > bundle.js",
+    "watch": "watchify ./app -v -o bundle.js",
     "syncserve": "browser-sync start --server --files \"bundle.js, style.css\"",
-    "start": "npm run build-js && npm run syncserve"
+    "dev": "npm run build && npm run syncserve & npm run watch",
+    "start": "npm run build-min && npm run syncserve"
   },
   "author": "Mathieu Dubois",
   "license": "MIT",
