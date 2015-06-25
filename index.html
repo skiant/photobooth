@@ -6,10 +6,10 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body ng-controller="appController as app">
-	<booth type="single"></booth>
-	<booth type="fourframes"></booth>
-	<booth type="gif"></booth>
-
+	<p>
+		<select name="boothMode" id="boot-mode" ng-options="mode for mode in ['single', 'fourframes', 'gif']" ng-model="app.mode"></select>
+	</p>
+	<booth type="app.mode"></booth>
 	<script src="bundle.js"></script>
 </body>
 </html>
