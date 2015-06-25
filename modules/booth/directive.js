@@ -25,7 +25,13 @@ function webcamDirectiveController ($scope, webcamService, $document, $q) {
 
 	vm.capture = function () {
 		switch(vm.type) {
-			case 'single':
+			case 'fourframes':
+				vm.result = vm.getFrames(4, 3000);
+				break;
+			case 'gif':
+				vm.result = vm.getFrames(10, 500);
+				break;
+			default:
 				vm.result = vm.getFrames(1);
 				break;
 		}
