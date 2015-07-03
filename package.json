@@ -2,6 +2,11 @@
   "name": "photobooth",
   "version": "0.0.0",
   "description": "a pics/gifs capture webapp",
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "https://github.com/skiant/photobooth.git"
+  },
   "main": "index.js",
   "dependencies": {
     "angular": "^1.4.1",
