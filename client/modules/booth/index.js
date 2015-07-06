@@ -14,6 +14,6 @@ allowVideoSrc.$inject = ['$sceDelegateProvider'];
 function allowVideoSrc ($sceDelegateProvider) {
 	$sceDelegateProvider.resourceUrlWhitelist([
 		'self',
-		'blob:http%3A//localhost%3A3000/**'
+		'blob:http%3A//localhost%3A*/**'
 	]);
 }
