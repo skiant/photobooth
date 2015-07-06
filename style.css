@@ -1,6 +1,19 @@
-.webcam,
-.result{
+.booth{
+	position: relative;
 	max-width: 640px;
+}
+
+.webcam{
+	max-width: 100%;
+}
+
+.controls button{
+	box-sizing: border-box;
+	display: inline-block;
+	font-size: 2em;
+	padding: 1em;
+	text-align: center;
+	width: 100%;
 }
 
 .result img{

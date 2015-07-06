@@ -1,11 +1,13 @@
 <div class="booth">
 	<div class="webcam-container">
-		<video class="webcam" autoplay ng-src="{{booth.stream}}"></video>
-		<div class="timer" ng-if="booth.webcam.timer">{{booth.webcam.timer}}</div>
+		<video class="webcam" autoplay ng-src="{{booth.stream}}" ng-if="booth.stream"></video>
 	</div>
 
-	<div class="controls">
-		<button ng-click="booth.capture()">Capture</button>
+	<div class="controls" ng-if="booth.stream">
+		<button ng-click="booth.capture()" ng-disabled="booth.webcam.timer">
+			<span ng-if="booth.webcam.timer">{{booth.webcam.timer}}</span>
+			<span ng-if="!booth.webcam.timer">Capture</span>
+		</button>
 	</div>
 
 	<div class="result" ng-if="booth.result">
