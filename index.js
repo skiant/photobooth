@@ -1,6 +1,8 @@
 var express = require('express');
 var browserify = require('browserify-middleware');
 var app = express();
+var fs = require('fs');
+var path = require('path');
 
 // allow websockets
 app.use(function (req, res, next) {
@@ -27,4 +29,14 @@ io.on('connection', function (socket) {
 	socket.on('log', function (data) {
 		console.log(data);
 	});
+
+	socket.on('single-pic', function (data) {
+		var dataBuffer = new Buffer(data.replace(/^data:image\/png;base64,/, ""), 'base64');
+		var fileName = path.join(__dirname, 'capture', Date.now() + '.png');
+		fs.writeFile(fileName, dataBuffer, function (err) {
+			if(err) {
+				console.log(err);
+			}
+		});
+	})
 });

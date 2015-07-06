@@ -23,12 +23,14 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 	let vm=this;
 	vm.result = null;
 	vm.webcam = webcamService;
+	vm.capture = startCapture;
+	vm.save = saveResult;
 
 	webcamService.stream.then(streamUrl => {
 		vm.stream = streamUrl;
 	});
 
-	vm.capture = function () {
+	function startCapture () {
 		switch(vm.type) {
 			case 'fourframes':
 				webcamService.getFrames(4, 3000).then(frames => {
@@ -44,6 +46,14 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 				webcamService.getFrames(1).then(frames => {
 					vm.result = frames[0];
 				});
+				break;
+		}
+	}
+
+	function saveResult () {
+		switch (vm.type) {
+			default:
+				socket.emit('single-pic', vm.result);
 				break;
 		}
 	}
