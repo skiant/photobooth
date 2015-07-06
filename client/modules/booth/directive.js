@@ -18,8 +18,8 @@ export default function () {
 	}
 }
 
-webcamDirectiveController.$inject = ['$scope', 'webcamService', '$document', '$q'];
-function webcamDirectiveController ($scope, webcamService, $document, $q) {
+webcamDirectiveController.$inject = ['$scope', 'webcamService', 'socketService', '$document', '$q'];
+function webcamDirectiveController ($scope, webcamService, socket, $document, $q) {
 	let vm=this;
 	vm.result = null;
 	vm.webcam = webcamService;

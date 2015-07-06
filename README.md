@@ -3,4 +3,4 @@ Test project to explore Browserify with Babelify transform, in the context of an
 Clone the repo, then run `npm install` to get all the dependencies. Start the app using `npm start`.
 
 
-Inspired by [Ben Drucker's work on angular-countdown](https://github.com/bendrucker/angular-countdown)
+Inspired by [angular-countdown](https://github.com/bendrucker/angular-countdown), [seatcamp](https://github.com/tec27/seatcamp), [angular-socket-io](https://github.com/btford/angular-socket-io)
