@@ -1,6 +1,7 @@
 <div class="booth">
 	<div class="webcam-container">
 		<video class="webcam" autoplay ng-src="{{booth.stream}}"></video>
+		<div class="timer" ng-if="booth.webcam.timer">{{booth.webcam.timer}}</div>
 	</div>
 
 	<div class="controls">

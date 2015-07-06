@@ -8,17 +8,18 @@ if (getUserMedia) {
 }
 
 class webcamService {
-	constructor ($q, $document) {
+	constructor ($q, $document, $interval) {
 		var def = $q.defer()
 
 		// prepare internal elements
+		this.timer = null;
 		this.video = $document[0].createElement('video');
 		this.video.setAttribute('autoplay', true);
 		this.canvas = $document[0].createElement('canvas');
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
-		this._timer = 0;
 		this.$q = $q;
+		this.$interval = $interval;
 
 		this.stream = def.promise;
 
@@ -59,6 +60,7 @@ class webcamService {
 
 		// capture each frame
 		frames.fill(0);
+		this.startTimer(captureStartDelay);
 		window.setTimeout(()=> {
 			frames.forEach((frame, index) => {
 				window.setTimeout(() => {
@@ -81,6 +83,19 @@ class webcamService {
 
 		return def.promise;
 	}
+
+	startTimer(delay) {
+		this.timer = delay/1000;
+		let interval = this.$interval(() => {
+			console.log('check');
+		}, 1000, this.timer);
+
+		interval.then(
+			()=>{ this.timer = null;},
+			null,
+			()=>{ this.timer--;}
+		);
+	}
 }
-webcamService.$inject = ['$q', '$document'];
+webcamService.$inject = ['$q', '$document', '$interval'];
 export default webcamService;

@@ -22,6 +22,8 @@ webcamDirectiveController.$inject = ['$scope', 'webcamService', '$document', '$q
 function webcamDirectiveController ($scope, webcamService, $document, $q) {
 	let vm=this;
 	vm.result = null;
+	vm.webcam = webcamService;
+
 	webcamService.stream.then(streamUrl => {
 		vm.stream = streamUrl;
 	});
