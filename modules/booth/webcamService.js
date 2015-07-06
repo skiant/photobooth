@@ -86,9 +86,7 @@ class webcamService {
 
 	startTimer(delay) {
 		this.timer = delay/1000;
-		let interval = this.$interval(() => {
-			console.log('check');
-		}, 1000, this.timer);
+		let interval = this.$interval(() => {}, 1000, this.timer);
 
 		interval.then(
 			()=>{ this.timer = null;},
