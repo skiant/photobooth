@@ -17,6 +17,7 @@ class webcamService {
 		this.canvas = $document[0].createElement('canvas');
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
+		this._timer = 0;
 		this.$q = $q;
 
 		this.stream = def.promise;
@@ -49,7 +50,8 @@ class webcamService {
 	}
 
 	// Record frames
-	getFrames (framesAmount, framesDelay) {
+	getFrames (framesAmount, framesDelay, captureStartDelay) {
+		captureStartDelay = captureStartDelay || 5000;
 		let def = this.$q.defer();
 		let frames = new Array(framesAmount);
 		// prepare context
@@ -57,16 +59,25 @@ class webcamService {
 
 		// capture each frame
 		frames.fill(0);
-		frames.forEach((frame, index) => {
-			context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-			frames[index] = this.canvas.toDataURL('image/jpg');
-			context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		window.setTimeout(()=> {
+			frames.forEach((frame, index) => {
+				window.setTimeout(() => {
+					context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+					frames[index] = this.canvas.toDataURL('image/jpg');
 
-			// end the capture with the last frame
-			if (index === frames.length-1) {
-				def.resolve(frames);
-			}
-		});
+					// end the capture with the last frame
+					if (index === frames.length-1) {
+						def.resolve(frames);
+					}
+				},
+				framesDelay
+				);
+
+			});
+		},
+		captureStartDelay
+		);
+
 
 		return def.promise;
 	}

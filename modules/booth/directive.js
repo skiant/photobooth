@@ -45,7 +45,6 @@ function webcamDirectiveController ($scope, webcamService, $document, $q) {
 				break;
 		}
 	}
-
 	return vm;
 }
 
