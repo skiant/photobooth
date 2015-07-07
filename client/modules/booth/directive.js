@@ -30,11 +30,29 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 		vm.stream = streamUrl;
 	});
 
+	let canvas = $document[0].createElement('canvas');
+	canvas.width = 945;
+	canvas.height = 945;
+	let imgContainer = $document[0].createElement('img');
+	let context = canvas.getContext('2d');
+
+	let fourFramesPositions = [
+		{x: 0, y:0},
+		{x: canvas.width/2, y: 0},
+		{x: 0, y: canvas.height/2},
+		{x: canvas.width/2, y: canvas.height/2}
+	]
+
+
 	function startCapture () {
 		switch(vm.type) {
 			case 'fourframes':
 				webcamService.getFrames(4, 3000).then(frames => {
-
+					frames.forEach((frame, index) => {
+						imgContainer.setAttribute('src', frame);
+						context.drawImage(imgContainer, fourFramesPositions[index].x, fourFramesPositions[index].y, canvas.width/2, canvas.height/2);
+					})
+					vm.result = canvas.toDataURL('image/jpg');
 				});
 				break;
 			case 'gif':
