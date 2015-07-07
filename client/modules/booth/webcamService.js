@@ -7,6 +7,8 @@ if (getUserMedia) {
 	getUserMedia = getUserMedia.bind(navigator);
 }
 
+let interval;
+
 class webcamService {
 	constructor ($q, $document, $interval) {
 		var def = $q.defer()
@@ -72,6 +74,9 @@ class webcamService {
 					// end the capture with the last frame
 					if (index === frames.length-1) {
 						def.resolve(frames);
+					} else if (framesDelay > 1000){
+						// show the timer if it's bigger than 1 second
+						this.startTimer(framesDelay);
 					}
 				},
 				framesDelay * index + 1
@@ -85,14 +90,15 @@ class webcamService {
 		return def.promise;
 	}
 
-	startTimer(delay) {
+	startTimer (delay) {
+		this.$interval.cancel(interval);
 		this.timer = delay/1000;
-		let interval = this.$interval(() => {}, 1000, this.timer);
+		interval = this.$interval(() => {}, 1000, this.timer);
 
 		interval.then(
 			()=>{ this.timer = null;},
 			null,
-			()=>{ this.timer--;}
+			()=>{ if (this.timer > 0){ this.timer--; } }
 		);
 	}
 }
