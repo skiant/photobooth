@@ -51,6 +51,7 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 
 
 	function startCapture () {
+		vm.result = null;
 		switch(vm.type) {
 			case 'fourframes':
 				webcamService.getFrames(4, 3000).then(frames => {
