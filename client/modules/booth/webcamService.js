@@ -74,7 +74,7 @@ class webcamService {
 						def.resolve(frames);
 					}
 				},
-				framesDelay
+				framesDelay * index + 1
 				);
 
 			});
