@@ -16,8 +16,8 @@ class webcamService {
 		this.video = $document[0].createElement('video');
 		this.video.setAttribute('autoplay', true);
 		this.canvas = $document[0].createElement('canvas');
-		this.canvas.width = 1280;
-		this.canvas.height = 720;
+		this.canvas.width = 945;
+		this.canvas.height = 945;
 		this.$q = $q;
 		this.$interval = $interval;
 
@@ -64,7 +64,9 @@ class webcamService {
 		window.setTimeout(()=> {
 			frames.forEach((frame, index) => {
 				window.setTimeout(() => {
-					context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+					let newWidth = 1280 * (this.canvas.height / 720);
+					let posX = (newWidth - this.canvas.width) / 2;
+					context.drawImage(this.video, -367, 0, 1280 * (945/720), 945);
 					frames[index] = this.canvas.toDataURL('image/jpg');
 
 					// end the capture with the last frame
@@ -79,7 +81,6 @@ class webcamService {
 		},
 		captureStartDelay
 		);
-
 
 		return def.promise;
 	}
