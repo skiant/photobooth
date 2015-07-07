@@ -25,9 +25,15 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 	vm.webcam = webcamService;
 	vm.capture = startCapture;
 	vm.save = saveResult;
+	vm.flash = false;
 
 	webcamService.stream.then(streamUrl => {
 		vm.stream = streamUrl;
+	});
+
+	$scope.$on('webcam-captured', () => {
+		$document[0].body.classList.add('flash');
+		window.setTimeout(()=>{$document[0].body.classList.remove('flash');}, 300);
 	});
 
 	let canvas = $document[0].createElement('canvas');

@@ -9,8 +9,8 @@ if (getUserMedia) {
 
 let interval;
 
-webcamService.$inject = ['$q', '$document', '$interval'];
-export default function webcamService($q, $document, $interval) {
+webcamService.$inject = ['$q', '$document', '$interval', '$rootScope'];
+export default function webcamService($q, $document, $interval, $rootScope) {
 	var def = $q.defer()
 
 	let service = {
@@ -64,6 +64,10 @@ export default function webcamService($q, $document, $interval) {
 		window.setTimeout(()=> {
 			frames.forEach((frame, index) => {
 				window.setTimeout(() => {
+					// sending an event for the flash effect
+					$rootScope.$broadcast('webcam-captured');
+
+					// calculate size/position
 					let newWidth = 1280 * (this.canvas.height / 720);
 					let posX = (newWidth - this.canvas.width) / 2;
 					context.drawImage(this.video, -367, 0, 1280 * (945/720), 945);
