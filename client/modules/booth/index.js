@@ -4,11 +4,13 @@ import angular from 'angular';
 import directive from './directive.js';
 import webcamService from './webcamService.js';
 import socketService from './socketService.js';
+import templateCompositionService from './templateCompositionService.js';
 
 export default angular.module('booth', [])
 .directive('booth', directive)
 .service('webcamService', webcamService)
 .service('socketService', socketService)
+.service('templateCompositionService', templateCompositionService)
 .config(allowVideoSrc);
 
 // Configure Angular's Strict Escaping to allow glob URLs as Source

@@ -13,13 +13,12 @@ export default function () {
 		template: template,
 		scope: {
 			type: '='
-		},
-		link: bindVideoElement
+		}
 	}
 }
 
-webcamDirectiveController.$inject = ['$scope', 'webcamService', 'socketService', '$document', '$q'];
-function webcamDirectiveController ($scope, webcamService, socket, $document, $q) {
+webcamDirectiveController.$inject = ['$scope', 'webcamService', 'socketService', 'templateCompositionService',  '$document', '$q'];
+function webcamDirectiveController ($scope, webcamService, socket, template, $document, $q) {
 	let vm=this;
 	vm.result = null;
 	vm.webcam = webcamService;
@@ -53,12 +52,8 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 		vm.result = null;
 		switch(vm.type) {
 			case 'fourframes':
-				webcamService.getFrames(4, 3000).then(frames => {
-					frames.forEach((frame, index) => {
-						imgContainer.setAttribute('src', frame);
-						context.drawImage(imgContainer, fourFramesPositions[index].x, fourFramesPositions[index].y, canvas.width/2, canvas.height/2);
-					})
-					vm.result = canvas.toDataURL('image/jpg');
+				webcamService.getFrames(4, 3000).then(template.composeFourFrames).then(img => {
+					vm.result = img;
 					socket.emit('save-pic', vm.result);
 				});
 				break;
@@ -68,17 +63,12 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 				});
 				break;
 			default:
-				webcamService.getFrames(1).then(frames => {
-					vm.result = frames[0];
+				webcamService.getFrames(1).then(template.composeSingle).then(img => {
+					vm.result = img;
 					socket.emit('save-pic', vm.result);
 				});
 				break;
 		}
 	}
 	return vm;
-}
-
-
-function bindVideoElement (scope, elem, attr) {
-	scope.booth.videoElement = elem.find('video')[0];
 }
