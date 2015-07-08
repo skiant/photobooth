@@ -30,7 +30,7 @@ io.on('connection', function (socket) {
 		console.log(data);
 	});
 
-	socket.on('single-pic', function (data) {
+	socket.on('save-pic', function (data) {
 		var dataBuffer = new Buffer(data.replace(/^data:image\/png;base64,/, ""), 'base64');
 		var fileName = path.join(__dirname, 'capture', Date.now() + '.png');
 		fs.writeFile(fileName, dataBuffer, function (err) {

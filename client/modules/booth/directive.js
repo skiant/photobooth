@@ -24,7 +24,6 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 	vm.result = null;
 	vm.webcam = webcamService;
 	vm.capture = startCapture;
-	vm.save = saveResult;
 	vm.flash = false;
 
 	webcamService.stream.then(streamUrl => {
@@ -60,6 +59,7 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 						context.drawImage(imgContainer, fourFramesPositions[index].x, fourFramesPositions[index].y, canvas.width/2, canvas.height/2);
 					})
 					vm.result = canvas.toDataURL('image/jpg');
+					socket.emit('save-pic', vm.result);
 				});
 				break;
 			case 'gif':
@@ -70,15 +70,8 @@ function webcamDirectiveController ($scope, webcamService, socket, $document, $q
 			default:
 				webcamService.getFrames(1).then(frames => {
 					vm.result = frames[0];
+					socket.emit('save-pic', vm.result);
 				});
-				break;
-		}
-	}
-
-	function saveResult () {
-		switch (vm.type) {
-			default:
-				socket.emit('single-pic', vm.result);
 				break;
 		}
 	}
