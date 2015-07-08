@@ -3,6 +3,8 @@ var browserify = require('browserify-middleware');
 var app = express();
 var fs = require('fs');
 var path = require('path');
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILLKEY);
 
 // allow websockets
 app.use(function (req, res, next) {
@@ -38,5 +40,32 @@ io.on('connection', function (socket) {
 				console.log(err);
 			}
 		});
+	})
+
+	var message = {
+			html: '<p>Salut !</p><p>Voici un petit souvenir du mariage de Juliette et Mathieu.</p>',
+			subject: 'Tu t\'es vu quand t\'as bu?',
+			from_email: 'info@julietteetmathieu.be',
+			from_name: 'Photobooth Juliette et Mathieu',
+			to: [{}],
+			attachments: [{
+				type: 'image/png',
+				name: 'photobooth-picture',
+				content: ''
+			}]
+	}
+
+	socket.on('mail-pic', function (data) {
+		console.log('Sending email');
+		var newMessage = message;
+		newMessage.to[0].email = data.email;
+		newMessage.attachments[0].content = data.image.replace('data:image/png;base64,', '');
+		mandrill_client.messages.send({message: newMessage},
+			function (result) {console.log(result)},
+			function (error) {console.log(error)}
+		);
+	},
+	function (error) {
+		console.log(error);
 	})
 });

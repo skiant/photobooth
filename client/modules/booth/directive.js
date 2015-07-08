@@ -11,9 +11,7 @@ export default function () {
 		controllerAs: 'booth',
 		replace: true,
 		template: template,
-		scope: {
-			type: '='
-		}
+		scope: {}
 	}
 }
 
@@ -23,7 +21,10 @@ function webcamDirectiveController ($scope, webcamService, socket, template, $do
 	vm.result = null;
 	vm.webcam = webcamService;
 	vm.capture = startCapture;
+	vm.sendMail = sendMail;
 	vm.flash = false;
+	vm.type = 'single';
+	vm.email = '';
 
 	webcamService.stream.then(streamUrl => {
 		vm.stream = streamUrl;
@@ -33,20 +34,6 @@ function webcamDirectiveController ($scope, webcamService, socket, template, $do
 		$document[0].body.classList.add('flash');
 		window.setTimeout(()=>{$document[0].body.classList.remove('flash');}, 300);
 	});
-
-	let canvas = $document[0].createElement('canvas');
-	canvas.width = 945;
-	canvas.height = 945;
-	let imgContainer = $document[0].createElement('img');
-	let context = canvas.getContext('2d');
-
-	let fourFramesPositions = [
-		{x: 0, y:0},
-		{x: canvas.width/2, y: 0},
-		{x: 0, y: canvas.height/2},
-		{x: canvas.width/2, y: canvas.height/2}
-	]
-
 
 	function startCapture () {
 		vm.result = null;
@@ -69,6 +56,10 @@ function webcamDirectiveController ($scope, webcamService, socket, template, $do
 				});
 				break;
 		}
+	}
+
+	function sendMail () {
+		socket.emit('mail-pic', {email: vm.email, image: vm.result});
 	}
 	return vm;
 }

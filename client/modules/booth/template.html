@@ -1,4 +1,8 @@
 <div class="booth">
+	<p>
+		<select name="boothMode" id="boot-mode" ng-options="mode for mode in ['single', 'fourframes', 'gif']" ng-model="booth.type"></select>
+	</p>
+
 	<div class="webcam-container">
 		<video class="webcam" autoplay ng-src="{{booth.stream}}" ng-if="booth.stream"></video>
 	</div>
@@ -11,6 +15,10 @@
 	</div>
 
 	<div class="result" ng-if="booth.result">
+		<div class="controls">
+			<input type="email" name="" id="" ng-model="booth.email">
+			<button ng-click="booth.sendMail()"></button>
+		</div>
 		<img ng-src="{{booth.result}}" alt="">
 	</div>
 </div>
