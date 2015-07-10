@@ -25,6 +25,8 @@ function webcamDirectiveController ($scope, webcamService, socket, template, $do
 	vm.flash = false;
 	vm.type = 'single';
 	vm.email = '';
+	vm.sendingEmail = false;
+	vm.emailStatus = null;
 
 	webcamService.stream.then(streamUrl => {
 		vm.stream = streamUrl;
@@ -37,6 +39,7 @@ function webcamDirectiveController ($scope, webcamService, socket, template, $do
 
 	function startCapture () {
 		vm.result = null;
+		vm.emailStatus = null;
 		switch(vm.type) {
 			case 'fourframes':
 				webcamService.getFrames(4, 3000).then(template.composeFourFrames).then(img => {
@@ -59,7 +62,19 @@ function webcamDirectiveController ($scope, webcamService, socket, template, $do
 	}
 
 	function sendMail () {
-		socket.emit('mail-pic', {email: vm.email, image: vm.result});
+		if (vm.sendingEmail === true) {
+			return false;
+		}
+		vm.emailStatus = null;
+		vm.sendingEmail = true;
+		socket.emit('mail-pic', {email: vm.email, image: vm.result}, (result, error) => {
+			vm.sendingEmail = false;
+			if (error) {
+				vm.emailStatus = false;
+			} else {
+				vm.emailStatus = true;
+			}
+		});
 	}
 	return vm;
 }

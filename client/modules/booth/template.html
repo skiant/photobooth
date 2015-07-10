@@ -1,24 +1,26 @@
-<div class="booth">
-	<p>
-		<select name="boothMode" id="boot-mode" ng-options="mode for mode in ['single', 'fourframes', 'gif']" ng-model="booth.type"></select>
-	</p>
+<div class="booth" ng-class="{'display-result':!!booth.result}">
+	<div class="booth-capture">
+		<p>
+			<select name="boothMode" id="boot-mode" ng-options="mode for mode in ['single', 'fourframes']" ng-model="booth.type"></select>
+		</p>
 
-	<div class="webcam-container">
-		<video class="webcam" autoplay ng-src="{{booth.stream}}" ng-if="booth.stream"></video>
-	</div>
+		<div class="webcam-container">
+			<video class="webcam" autoplay ng-src="{{booth.stream}}" ng-if="booth.stream"></video>
+		</div>
 
-	<div class="controls" ng-if="booth.stream">
-		<button ng-click="booth.capture()" ng-disabled="booth.webcam.timer">
-			<span ng-if="booth.webcam.timer">{{booth.webcam.timer}}</span>
-			<span ng-if="!booth.webcam.timer">Capture</span>
-		</button>
+		<div class="controls" ng-if="booth.stream">
+			<button ng-click="booth.capture()" ng-disabled="booth.webcam.timer">
+				<span ng-if="booth.webcam.timer">{{booth.webcam.timer}}</span>
+				<span ng-if="!booth.webcam.timer">Go !</span>
+			</button>
+		</div>
 	</div>
 
 	<div class="result" ng-if="booth.result">
-		<div class="controls">
-			<input type="email" name="" id="" ng-model="booth.email">
-			<button ng-click="booth.sendMail()"></button>
-		</div>
 		<img ng-src="{{booth.result}}" alt="">
+		<form class="booth-email" ng-submit="booth.sendMail()">
+			<label for="booth-email">Email: <input type="email" name="booth-email" id="booth-email" ng-model="booth.email"></label>
+			<button ng-disabled="booth.sendingEmail">Envoyer</button>
+		</form>
 	</div>
 </div>

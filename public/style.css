@@ -1,8 +1,16 @@
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 .booth{
 	position: relative;
-	max-width: 360px;
 	margin-left: auto;
 	margin-right: auto;
+	width: 360px;
+}
+
+.booth.display-result{
+	width: 730px;
 }
 
 .webcam-container {
@@ -17,17 +25,35 @@
 	margin-left: -140px;
 }
 
+.controls{
+	width: 360px;
+}
+
 .controls button{
 	box-sizing: border-box;
 	display: inline-block;
 	font-size: 2em;
 	padding: 1em;
 	text-align: center;
-	width: 100%;
+	width: 360px;
+}
+
+.booth-capture,
+.result{
+	width: 360px;
+	float:left;
+}
+
+.result{
+	margin-left: 10px;
 }
 
 .result img{
 	max-width: 100%;
+}
+
+.booth-email{
+	margin-top: 10px;
 }
 
 

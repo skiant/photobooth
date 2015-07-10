@@ -55,14 +55,20 @@ io.on('connection', function (socket) {
 			}]
 	}
 
-	socket.on('mail-pic', function (data) {
+	socket.on('mail-pic', function (data, cb) {
 		console.log('Sending email');
 		var newMessage = message;
 		newMessage.to[0].email = data.email;
 		newMessage.attachments[0].content = data.image.replace('data:image/png;base64,', '');
 		mandrill_client.messages.send({message: newMessage},
-			function (result) {console.log(result)},
-			function (error) {console.log(error)}
+			function (result) {
+				console.log(result);
+				cb(result, null)
+				},
+			function (error) {
+				console.log(error);
+				cb(null, error);
+				}
 		);
 	},
 	function (error) {
